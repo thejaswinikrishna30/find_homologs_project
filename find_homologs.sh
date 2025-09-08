@@ -7,6 +7,10 @@ makeblastdb -in "$subject" -dbtype nucl -out subject_db
 
 tblastn -query "$query" -db subject_db \
        -outfmt "6 qseqid sseqid pident length qlen bitscore" \
-       | awk -F'\t' '($3>30) && ($4/$5>0.9)' > "$output"
+       | awk -F'\t' '($3>=30) && ($4/$5>=0.9)' > "$output"
 
-wc -l > "$output"
+wc -l < "$output"
+
+
+
+
