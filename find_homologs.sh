@@ -1,21 +1,14 @@
 #!/bin/bash
-
 query="$1"
 subject="$2"
 output="$3"
-
-makeblastdb -in "$subject" -dbtype prot -out subject_db
-
-blastx -query "$query" -db subject_db \
-       -outfmt "6 pident length qlen bitscore" \
-       -out temp_blast_results.txt
-
-awk '{
-    coverage = $2 / $3 * 100    # $2 = alignment length, $3 = query length
-    if ($1 >= 30 && coverage >= 90) print
-}' temp_blast_results.txt > filtered_results.txt
+makeblastdb -in "$subject" -dbtype nucl -out subject_db
+tblastn -query "$query" -db subject_db \
+       -outfmt "6 qseqid sseqid pident length qlen bitscore" \
+       | awk '($3 >= 30 && $6 >= 90)' > "$output"
 
 num_hits=$(wc -l < "$output")
-echo "No. of hits: $num_hits"
+echo "Matches: $num_hits"
 
-rm temp_blast_results.txt
+
+
