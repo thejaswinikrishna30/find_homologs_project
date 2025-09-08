@@ -8,7 +8,7 @@ tblastn -query "$query" -db subject_db \
        | awk '($3 >= 30 && $6 >= 90)' > "$output"
 
 num_hits=$(wc -l < "$output")
-echo "Matches: $num_hits"
+echo " $num_hits"
 
 
 
