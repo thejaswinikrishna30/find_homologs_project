@@ -1,4 +1,4 @@
-  GNU nano 7.2                  find_homologs.sh                            #!/bin/bash
+#!/bin/bash
 query="$1"
 subject="$2"
 output="$3"
